@@ -1,2 +1,2 @@
-pika
-influxdb
+pika==0.12.0
+influxdb==5.0.0

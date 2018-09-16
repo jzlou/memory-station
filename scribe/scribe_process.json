@@ -1,5 +1,4 @@
 {
   "name": "scribe",
   "script": "scribe.js",
-  "watch": true
 }

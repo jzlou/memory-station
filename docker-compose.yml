@@ -10,7 +10,7 @@ services:
     restart: always
   rabbitmq:
     image: rabbitmq:3.7.7-management
-    hostname: "lecole-rabbit"
+    hostname: "rabbitmq"
     ports:
       - "15672:15672"
       - "5672:5672"
@@ -18,7 +18,9 @@ services:
       - ./rabbitmq.conf:/etc/rabbitmq/rabbitmq.config
     restart: always
   scribe:
-      build: ./scribe
-      depends_on:
-        - "influxdb"
-        - "rabbitmq"
+    build: ./scribe
+    depends_on:
+      - "influxdb"
+      - "rabbitmq"
+    environment:
+      WAIT_HOSTS: rabbitmq:5672, influxdb:8086

@@ -17,7 +17,7 @@ influx.getDatabaseNames()
 
 amqp.connect('amqp://rabbitmq', function(err, conn) {
   conn.createChannel(function(err, ch) {
-    let q = 'hello';
+    let q = 'scribe';
     ch.assertQueue(q, {durable: false});
     console.log("waiting for messages")
     ch.consume(q, function(msg) {

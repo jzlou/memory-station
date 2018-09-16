@@ -1,4 +1,3 @@
-require('dotenv').config();
 const Influx = require('influx');
 const amqp = require('amqplib/callback_api');
 
@@ -7,17 +6,20 @@ const influx = new Influx.InfluxDB({
   database: 'weather',
 });
 
+// settings
+const q = 'scribe';
+const db = 'weather';
+
 influx.getDatabaseNames()
   .then(names => {
-    if (!names.includes('weather')) {
-      return influx.createDatabase('weather');
+    if (!names.includes(db)) {
+      return influx.createDatabase(db);
     }
   })
   .then(() => {console.log('_____connected to influx')})
 
 amqp.connect('amqp://rabbitmq', function(err, conn) {
   conn.createChannel(function(err, ch) {
-    let q = 'scribe';
     ch.assertQueue(q, {durable: false});
     console.log("waiting for messages")
     ch.consume(q, function(msg) {

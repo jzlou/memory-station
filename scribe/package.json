@@ -1,7 +1,6 @@
 {
   "dependencies": {
     "amqplib": "^0.5.2",
-    "dotenv": "^6.0.0",
     "influx": "^5.0.7"
   }
 }

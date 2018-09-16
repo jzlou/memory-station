@@ -1,10 +1,8 @@
-FROM python:3
+FROM keymetrics/pm2:10-alpine
 
 WORKDIR /usr/src/app
-
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
-
 COPY . .
 
-CMD [ "python", "./scribe.py" ]
+RUN yarn install
+
+CMD [ "pm2-runtime", "start", "scribe_process.json" ]

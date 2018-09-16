@@ -17,3 +17,5 @@ services:
     volumes:
       - ./rabbitmq.conf:/etc/rabbitmq/rabbitmq.config
     restart: always
+  scribe:
+      build: ./scribe

@@ -5,7 +5,8 @@ COPY . .
 
 RUN yarn install
 
-ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.3.0/wait /wait
-RUN chmod +x /wait
+ADD https://raw.githubusercontent.com/ufoscout/docker-compose-wait/1.0.0/wait.sh wait.sh
+RUN chmod +x wait.sh
+RUN apt-get update && apt-get install -y netcat
 
-CMD [ "/wait", "pm2-runtime", "start", "scribe_process.json" ]
+CMD ./wait.sh && pm2-runtime start ./scribe-process.json

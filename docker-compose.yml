@@ -19,3 +19,6 @@ services:
     restart: always
   scribe:
       build: ./scribe
+      depends_on:
+        - "influxdb"
+        - "rabbitmq"

@@ -9,4 +9,4 @@ ADD https://raw.githubusercontent.com/ufoscout/docker-compose-wait/1.0.0/wait.sh
 RUN chmod +x wait.sh
 RUN apt-get update && apt-get install -y netcat
 
-CMD ./wait.sh && pm2-runtime start ./scribe-process.json
+CMD ./wait.sh && pm2-runtime process.json

@@ -22,6 +22,10 @@ amqp.connect('amqp://rabbitmq', function(err, conn) {
     console.log("waiting for messages")
     ch.consume(q, function(msg) {
       console.log(`received: ${msg.content.toString()}`)
+      let datum = JSON.parse(msg.content.toString())
+      influx.writePoints([datum]).catch(err => {
+        console.error(`Couldn't save to influx: ${err.stack}`)
+      });
     }, {noAck: true});
   });
 });

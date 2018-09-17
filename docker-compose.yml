@@ -24,3 +24,8 @@ services:
       - "rabbitmq"
     environment:
       WAIT_HOSTS: rabbitmq:5672, influxdb:8086
+  grafana:
+    image: grafana/grafana
+    ports: "3000:3000"
+    volumes:
+      - /data/grafana:/var/lib/grafana

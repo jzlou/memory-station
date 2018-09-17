@@ -30,4 +30,3 @@ services:
       - "3000:3000"
     volumes:
       - /data/grafana:/var/lib/grafana
-    user: "104"

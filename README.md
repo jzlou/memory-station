@@ -11,3 +11,7 @@ _list 'o containers_
 * influx db
 * api server implemented in node / express?
 * grafana
+
+_services to remember to add_
+* sentry integration
+* (reach) logging? or at least log rotation? idk

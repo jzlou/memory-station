@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "amqplib": "^0.5.2",
-    "influx": "^5.0.7"
-  }
-}

@@ -26,7 +26,7 @@ api.post('/', (req, res) => {
       tags: {},
       fields {},
     }
-  ]);
+  ]).catch(error => console.log({error}));
   // TODO: respond with the ts
   res.status(200).send(`successfully wrote data point with ts`);
   // TODO: handle bad requests

@@ -4,9 +4,10 @@ const bodyparser = require('body-parser');
 const Influx = require('influx');
 const helmet = require('helmet');
 const ipfilter = require('express-ipfilter').IpFilter;
+const IpDeniedError = require('express-ipfilter').IpDeniedError;
 
 const api = express();
-const port = process.env.PORT || 3000;
+const port = process.env.API_PORT || 3000;
 const influx = new Influx.InfluxDB({
   host: process.env.INFLUX_HOST
 })
@@ -18,17 +19,25 @@ api.use(bodyparser.urlencoded({extended: false}));
 
 // only allow certain IPs, configured by environment
 api.use(ipfilter(allowed_ips, {mode: 'allow'}))
+api.use( (err, req, res, _next) => {
+  console.log('blocking ip', err);
+  if (err instanceof IpDeniedError) {
+    res.status(401).send(`ip denied`)
+  }
+});
 
 api.post('/', (req, res) => {
-  influx.writePoints([ //TODO: write the point from request
+  influx.writePoints([
     {
-      measurement: 'm',
-      tags: {},
-      fields {},
+      measurement: req.body.measurement,
+      tags: req.body.tags,
+      fields: req.body.fields,
+      timestamp: req.body.timestamp
     }
   ]).catch(error => console.log({error}));
-  // TODO: respond with the ts
-  res.status(200).send(`successfully wrote data point with ts`);
+  res.status(200).send(
+    `successfully wrote data point with ts ${req.body.timestamp}`
+  );
   // TODO: handle bad requests
 });
 

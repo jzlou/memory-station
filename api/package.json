@@ -9,7 +9,8 @@
     "influx": "^5.4.2"
   },
   "scripts": {
-    "deploy": "ansible-playbook --ask-become-pass ../ansible/deploy.yml"
+    "deploy": "ansible-playbook --ask-become-pass ./ansible/deploy.yml",
+    "launch": "ansible-playbook --ask-become-pass ./ansible/launch.yml"
   },
   "license": "MIT"
 }

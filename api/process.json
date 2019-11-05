@@ -1,4 +1,4 @@
 {
     "name": "api",
-    "script": "api.js"
+    "script": "./api.js"
 }

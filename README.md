@@ -12,6 +12,7 @@ _list 'o containers_
 * api server implemented in node / express?
 * grafana
 
-_services to remember to add_
+_TODO:_
 * sentry integration
-* (reach) logging? or at least log rotation? idk
+* logging
+* copy over .env files

@@ -18,9 +18,10 @@ api.use(bodyparser.json());
 api.use(bodyparser.urlencoded({extended: false}));
 
 // only allow certain IPs, configured by environment
-api.use(ipfilter(allowed_ips, {mode: 'allow'}))
+api.use(ipfilter(
+  ['::ffff:127.0.0.1'].push(allowed_ips), {mode: 'allow'})
+);
 api.use( (err, req, res, _next) => {
-  console.log('blocking ip', err);
   if (err instanceof IpDeniedError) {
     res.status(401).send(`ip denied`)
   }

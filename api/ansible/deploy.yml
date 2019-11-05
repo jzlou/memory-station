@@ -1,0 +1,21 @@
+---
+- hosts: sky
+  become: yes
+  vars:
+    project_path: /opt/memory-station
+  tasks:
+    - name: copy app file
+      copy: src=../api.js dest={{ project_path }} force=yes
+
+    - name: copy package.json
+      copy: src=../package.json dest={{ project_path }} force=yes
+
+    - name: copy pm2 process.json
+      copy: src=../process.json dest={{ project_path }} force=yes
+
+    - name: update dependencies
+      yarn:
+        path: "{{ project_path }}"
+
+    - name: restart pm2 process
+      command: pm2 restart memory-station

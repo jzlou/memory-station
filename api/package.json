@@ -1,4 +1,5 @@
 {
+  "name": "memory-station-api",
   "dependencies": {
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
@@ -6,6 +7,9 @@
     "express-ipfilter": "^1.1.0",
     "helmet": "^3.21.1",
     "influx": "^5.4.2"
+  },
+  "scripts": {
+    "deploy": "ansible-playbook --ask-become-pass ../ansible/deploy.yml"
   },
   "license": "MIT"
 }

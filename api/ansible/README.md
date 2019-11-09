@@ -8,6 +8,7 @@ Due to issues with ansible not being able to pull from Github (I've tried so man
 
 Deploy redeploys new code and rebuilds the application on the server.
 TODO: in conjunction with below, deploy should use Docker instead of installing on bare metal.
+TODO: copy over env...
 
 `yarn run launch` runs the launch.yml playbook
 

@@ -13,6 +13,5 @@ _list 'o containers_
 * grafana
 
 _TODO:_
-* sentry integration
 * logging
 * copy over .env files

@@ -6,7 +6,6 @@ const helmet = require('helmet');
 const ipfilter = require('express-ipfilter').IpFilter;
 const IpDeniedError = require('express-ipfilter').IpDeniedError;
 const Sentry = require('@sentry/node');
-// TODO: import sentry
 
 const api = express();
 const port = process.env.API_PORT || 3000;

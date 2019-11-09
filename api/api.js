@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const ipfilter = require('express-ipfilter').IpFilter;
 const IpDeniedError = require('express-ipfilter').IpDeniedError;
 const Sentry = require('@sentry/node');
+const morgan = require('morgan');
 
 const api = express();
 const port = process.env.API_PORT || 3000;
@@ -18,6 +19,7 @@ Sentry.init({ 'dsn': process.env.SENTRY_DSN });
 api.use(helmet());
 api.use(bodyparser.json());
 api.use(bodyparser.urlencoded({extended: false}));
+api.use(morgan('combined'));
 
 // only allow certain IPs, configured by environment
 api.use(ipfilter(

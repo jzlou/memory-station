@@ -3,6 +3,8 @@
   become: yes
   vars:
     project_path: /opt/memory-station
+  environment:
+    PYTHONPATH: "/home/jzlou/.local/lib/python3.6/site-packages"
   tasks:
     - name: copy app file
       copy: src=../api.js dest={{ project_path }} force=yes
@@ -10,12 +12,26 @@
     - name: copy package.json
       copy: src=../package.json dest={{ project_path }} force=yes
 
-    - name: copy pm2 process.json
-      copy: src=../process.json dest={{ project_path }} force=yes
+    - name: copy dockerfile
+      copy: src=../Dockerfile dest={{ project_path }} force=yes
 
-    - name: update dependencies
-      yarn:
-        path: "{{ project_path }}"
+    - name: copy .env file
+      copy: src=../.env dest={{ project_path }} force=yes
 
-    - name: restart pm2 process
-      command: pm2 restart memory-station
+    - name: build docker image
+      docker_image:
+        name: memory-station/api
+        tag: latest
+        build:
+          path: "{{ project_path }}"
+          pull: no
+        source: build
+
+    - name: run docker image
+      docker_container:
+        name: api-server
+        image: memory-station/api:latest
+        state: started
+        volumes:
+          - /data/api
+        published_ports: "4251:4251"

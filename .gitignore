@@ -1,7 +1,7 @@
 *.swp
 node_modules
 build
-.env
+.env*
 yarn-debug.log*
 yarn-error.log*
 npm-debug.log*

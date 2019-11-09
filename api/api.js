@@ -5,6 +5,7 @@ const Influx = require('influx');
 const helmet = require('helmet');
 const ipfilter = require('express-ipfilter').IpFilter;
 const IpDeniedError = require('express-ipfilter').IpDeniedError;
+const Sentry = require('@sentry/node');
 // TODO: import sentry
 
 const api = express();
@@ -13,6 +14,7 @@ const influx = new Influx.InfluxDB({
   host: process.env.INFLUX_HOST
 })
 const allowed_ips = [process.env.IP];
+Sentry.init({ 'dsn': process.env.SENTRY_DSN });
 
 api.use(helmet());
 api.use(bodyparser.json());

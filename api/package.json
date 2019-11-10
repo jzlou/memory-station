@@ -11,7 +11,7 @@
   },
   "scripts": {
     "deploy": "ansible-playbook --ask-become-pass ./ansible/deploy.yml -e 'ansible_python_interpreter=/usr/bin/python3.6'",
-    "build": "docker build -t memory-station/api . && docker run -it --rm memory-station/api"
+    "build": "docker build -t memory-station/api . && docker run -it --rm memory-station/api -p '4251:4251'"
   },
   "license": "MIT"
 }

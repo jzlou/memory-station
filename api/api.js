@@ -3,8 +3,6 @@ const express = require('express');
 const bodyparser = require('body-parser');
 const Influx = require('influx');
 const helmet = require('helmet');
-const ipfilter = require('express-ipfilter').IpFilter;
-const IpDeniedError = require('express-ipfilter').IpDeniedError;
 const Sentry = require('@sentry/node');
 const morgan = require('morgan');
 
@@ -20,16 +18,9 @@ api.use(helmet());
 api.use(bodyparser.json());
 api.use(bodyparser.urlencoded({extended: false}));
 api.use(morgan('combined'));
-
-// only allow certain IPs, configured by environment
-api.use(ipfilter(
-  ['::ffff:127.0.0.1'].push(allowed_ips), {mode: 'allow'})
-);
-api.use( (err, req, res, _next) => {
-  if (err instanceof IpDeniedError) {
-    res.status(401).send(`ip denied`)
-  }
-});
+api.use(Sentry.Handlers.requestHandler());
+api.use(Sentry.Handlers.errorHandler());
+api.set('secret', process.env.SECRET);
 
 api.post('/', (req, res) => {
   influx.writePoints([
@@ -39,14 +30,24 @@ api.post('/', (req, res) => {
       fields: req.body.fields,
       timestamp: req.body.timestamp
     }
-  ]).catch(error => console.log({error}));
+  ]).catch(
+    error => {
+      setTimeout(() => { throw error; });
+    }
+  );
   res.status(200).send(
     `successfully wrote data point with ts ${req.body.timestamp}`
   );
-  // TODO: handle bad requests
+});
+
+api.get('/', (req, res) => {
+  res.send('the api is alive!');
 });
 
 api.listen(port, () => {
-  // TODO: handle rejected IPs
   console.log(`api engine listening on port ${port}`);
+});
+
+api.post('/authenticate', (req, res) => {
+
 });

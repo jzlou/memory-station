@@ -6,7 +6,9 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "helmet": "^3.21.1",
-    "morgan": "^1.9.1"
+    "knex": "^0.20.2",
+    "morgan": "^1.9.1",
+    "pg": "^7.14.0"
   },
   "scripts": {
     "deploy": "ansible-playbook --ask-become-pass ./ansible/deploy.yml -e 'ansible_python_interpreter=/usr/bin/python3.6'",

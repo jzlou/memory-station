@@ -28,7 +28,7 @@ api.set('secret', process.env.SECRET);
 api.post('/', (req, res) => {
 });
 
-// retrieve locaiton records
+// retrieve location records
 api.get('/locations/:id', (req, res) => {
   pool.query('SELECT * FROM locations WHERE id = $1;', [req.params.id], (err, result) => {
     if (err) {

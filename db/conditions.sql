@@ -30,5 +30,6 @@ ALTER TABLE conditions ADD FOREIGN KEY (location_id) REFERENCES locations (id);
 SELECT create_hypertable(
     main_table := 'conditions',
     time_column_name := 'time',
-    partitioning_column := 'location_id'
+    partitioning_column := 'location_id',
+    number_partitions := 1
 );

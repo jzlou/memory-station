@@ -4,20 +4,13 @@ const bodyparser = require('body-parser');
 const helmet = require('helmet');
 const Sentry = require('@sentry/node');
 const morgan = require('morgan');
-const Knex = require('knex');
+const { Pool } = require('pg');
 
 const api = express();
 const port = process.env.API_PORT || 3000;
 Sentry.init({ 'dsn': process.env.SENTRY_DSN });
-const knex = Knex({
-  client: 'pg',
-  version: process.env.PG_VERSION,
-  connection: {
-    host: process.env.PG_HOST,
-    user: process.env.PG_USER,
-    password: process.env.PG_PASSWORD,
-    database: process.env.PG_DATABASE,
-  }
+const pool = new Pool({
+  connectionString: process.env.PG_CONNECTION
 })
 
 api.use(helmet());
@@ -31,8 +24,26 @@ api.set('secret', process.env.SECRET);
 api.post('/', (req, res) => {
 });
 
-api.get('/', (req, res) => {
-  res.send('the api is alive!');
+// retrieve locaiton records
+api.get('/locations/:id', (req, res) => {
+  pool.connect((err, client, done) => {
+    // handle errors
+    if (err) {
+      done();
+      console.log(err);
+    }
+
+    client.query('SELECT * FROM locations WHERE id = $1;', [req.params.id], (err, result) => {
+      done()
+      if (err) {
+        console.log(err.stack);
+        return res.status(500).json({success: false, data: err});
+      } else {
+        console.log(result.rows);
+        return res.send(result.rows);
+      }
+    });
+  });
 });
 
 api.listen(port, () => {

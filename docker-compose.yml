@@ -1,14 +1,14 @@
-version: "3.7"
+version: "2"
 services:
-  influxdb:
-    image: influxdb:1.7-alpine
-    container_name: influxdb
-    ports:
-      - "8086:8086"
-    volumes:
-      - /data/influxdb:/var/lib/influxdb
-    restart: always
   api:
     build: ./api
-    env_files:
-      - /data/api/api.env
+    ports:
+      - "4251:4251"
+    depends_on:
+      - db
+  db:
+    image: timescale/timescaledb:latest-pg11
+    ports:
+      - "5432:5432"
+    volumes:
+      - /data/timescale:/var/lib/postgresql/data

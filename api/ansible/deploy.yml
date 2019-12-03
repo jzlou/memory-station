@@ -18,6 +18,12 @@
     - name: copy .env file
       copy: src=../.env dest={{ project_path }} force=yes
 
+    - name: copy docker-compose file
+      copy:
+        src: ../../docker-compose.yml
+        dest: {{ project_path }}
+        force: yes
+
     - name: build docker image
       docker_image:
         name: memory-station/api
